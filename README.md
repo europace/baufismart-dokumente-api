@@ -1,6 +1,5 @@
 # baufismart-dokumente-api
 
-
 Diese Schnittstelle ermöglicht es, Dokumente einem BaufiSmart Vorgang hinzuzufügen.
 
 Ein hochgeladenes Dokument besteht aus binär Daten (z.B. einem PDF oder Bild) und dessen Metadaten. Die Schnittstelle ist streaming fähig. Hochgeladene Dokumente erscheinen wie alle anderen Dokumente in der Dokumenten-Lasche innerhalb eines BaufiSmart Vorgang.
@@ -16,6 +15,8 @@ sichtbarFuerVertrieb | Wenn "true", dann wird das Dokument (auch) dem Beratungst
 vorgangsNummer | Das Dokument wird diesem Vorgang zugeordnet, wenn keine teilantragnummer gegeben.
 erstellungsdatum | Datum an welchem das Dokument erstellt wurde.
 
+# Authorisierung
+
 Die Authentifizierung erfolgt über HTTP Header. Der Benutzer muss Zugriff auf den Vorgang bzw. TeilAntrag haben um Dokumente hinzufügen zu können.
 
 Header Parameter | Beschreibung
@@ -24,6 +25,12 @@ X-ApiKey         | API des Benutzers / der Organisationen
 X-PartnerId      | PartnerId des Benutzers
 
 Nachfolgendes Beispiel zeigt einen Auschnitt des HTTP Request, welcher die Datei Antrag.pdf in die EUROPACE 2 Plattform importiert und dem Vorgang 123456 zuordnet. Als Antwort wird im Location Header die URI auf das Dokument geliefert.
+
+Besitzt man einen gültigen JWT kann man auch die API per Header Parameter 'X-Authenitcation' nutzen:
+
+Header Parameter | Beschreibung
+-----------------|-------------
+X-Authenitcation | der JWT 
 
 
 ```
