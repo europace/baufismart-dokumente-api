@@ -8,7 +8,6 @@ Folgende Request Parameter stehen zur Verfügung:
 
 Request Parameter | Beschreibung
 -----|-------------
-filename | Dateiname nach Download.
 anzeigename | Name zur Anzeige auf der Oberfläche.
 teilAntragNummer | Das Dokument wird dem Kreditentscheidungsteilvorgang des Teilantrag zugeordnet.
 sichtbarFuerVertrieb | Wenn "true", dann wird das Dokument (auch) dem Beratungsteilvorgang zugeordnet.
