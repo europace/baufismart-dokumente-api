@@ -6,7 +6,7 @@ Diese API wird nicht weiter entwickelt und in Zukunft mit folgender API abgelös
 
 ## Dokumentation
 
-### OpenAPi (ehemals swagger)  Spezifikationen
+### OpenAPi (ehemals Swagger)  Spezifikationen
 Die API ist vollständig in OpenAPI definiert. EIne Konvertierung in das swagger Format ist mit diesen Dateien auch möglich.
 
 * [openapi.json](https://github.com/europace/baufismart-dokumente-api/blob/master/openapi/openapi.json)
