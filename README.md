@@ -2,8 +2,6 @@
 
 Diese Schnittstelle ermöglicht es, Dokumente einem Vorgang/Antrag hinzuzufügen oder herunterzuladen.
 
-⚠️ Diese API wird nicht weiter entwickelt und in Zukunft mit folgender API abgelöst: [dokumente-api](https://github.com/europace/dokumente-api).
-
 ## Dokumentation
 
 ### OpenAPi (ehemals Swagger)  Spezifikationen
