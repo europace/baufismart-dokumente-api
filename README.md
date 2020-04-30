@@ -129,5 +129,6 @@ Ein Beispiel-Request kann mit curl erzeugt werden. Bitte alle grossgeschriebenen
 ```
 curl -v -H "X-PartnerId: PARTNER_ID" -H "X-ApiKey: API_KEY"   -F "vorgangsNummer=V_NR" -F "filename=DATEI_NAME"  -F "file=@DATEI_NAME" -F "sichtbarFuerVertrieb=true" https://www.europace2.de/vorgang/dokumente
 ```
-# Nutzungsbedingungen
-Mit der Verwendung dieser API [stimme ich den Nutzungsbedingungen](https://developer.europace.de/terms/) zu.
+## Nutzungsbedingungen
+Die APIs werden unter folgenden [Nutzungsbedingungen](https://developer.europace.de/terms/) zur Verfügung gestellt
+
