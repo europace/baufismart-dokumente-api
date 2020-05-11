@@ -68,7 +68,7 @@ Bei Upload Requests muss dieser JWToken als 'X-Authenitcation' Header mitgeschic
 Usecase | Header  | Header Value
 -----------------|-------------|-------------
 Download   |  Authorization     | {{JWT}}
-Upload | X-Authentication     | Bearer {{JWT}}
+Upload | X-Authentication     | {{JWT}}
 
 Wichtig!
 Der Benutzer muss neben des JWT auch Zugriff auf den Vorgang bzw. TeilAntrag haben um Dokumente hinzufügen oder runterladen zu können.
@@ -127,7 +127,7 @@ Location: https://www.europace2.de/dokumentenverwaltung/v97w3945w045ct3576c4w09r
 Ein Beispiel-Request kann mit curl erzeugt werden. Bitte alle grossgeschriebenen Platzhalter ersetzen.
 
 ```
-curl -v -H "X-PartnerId: PARTNER_ID" -H "X-ApiKey: API_KEY"   -F "vorgangsNummer=V_NR" -F "filename=DATEI_NAME"  -F "file=@DATEI_NAME" -F "sichtbarFuerVertrieb=true" https://www.europace2.de/vorgang/dokumente
+curl -v -H "X-Authentication: JWT" -F "vorgangsNummer=V_NR" -F "filename=DATEI_NAME"  -F "file=@DATEI_NAME" -F "sichtbarFuerVertrieb=true" https://www.europace2.de/vorgang/dokumente
 ```
 ## Nutzungsbedingungen
 Die APIs werden unter folgenden [Nutzungsbedingungen](https://developer.europace.de/terms/) zur Verfügung gestellt
