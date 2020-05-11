@@ -68,7 +68,7 @@ Bei Upload Requests muss dieser JWToken als 'X-Authenitcation' Header mitgeschic
 Usecase | Header  | Header Value
 -----------------|-------------|-------------
 Download   |  Authorization     | {{JWT}}
-Upload | X-Authenitcation     | Bearer {{JWT}
+Upload | X-Authentication     | Bearer {{JWT}}
 
 Wichtig!
 Der Benutzer muss neben des JWT auch Zugriff auf den Vorgang bzw. TeilAntrag haben um Dokumente hinzufügen oder runterladen zu können.
@@ -83,7 +83,7 @@ Besitzt man einen gültigen JWT kann man auch die API per Header Parameter 'X-Au
 
 Header Parameter | Beschreibung
 -----------------|-------------
-X-Authenitcation | der JWT 
+X-Authentication | der JWT 
 
 
 ```
