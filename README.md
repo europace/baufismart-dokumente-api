@@ -63,7 +63,7 @@ Aus der JSON-Antwort das JWToken (access_token) entnehmen
 
 #### 3. JWT beim Upload/Download mitliefern
 
-Bei Upload Requests muss dieser JWToken als 'X-Authenitcation' Header mitgeschickt werden. Beim download als 'Authorization' Header.
+Bei Upload Requests muss dieser JWToken als 'X-Authentication' Header mitgeschickt werden. Beim download als 'Authorization' Header.
 
 Usecase | Header  | Header Value
 -----------------|-------------|-------------
