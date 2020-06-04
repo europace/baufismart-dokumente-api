@@ -1,3 +1,7 @@
+### ⚠️ Diese Dokumentation ist nicht mehr öffentlich zugänglich!
+
+Es sollen sich keine weiteren Partner an diese API anschliessen. Mehr info gibt es von Fabian S.
+
 # baufismart-dokumente-api
 
 Diese Schnittstelle ermöglicht es, Dokumente einem Vorgang/Antrag hinzuzufügen oder herunterzuladen.
