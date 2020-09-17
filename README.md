@@ -87,7 +87,7 @@ Besitzt man einen gültigen JWT kann man auch die API per Header Parameter 'X-Au
 
 Header Parameter | Beschreibung
 -----------------|-------------
-X-Authentication | der JWT 
+X-Authentication | der JWT
 
 
 ```
@@ -134,5 +134,4 @@ Ein Beispiel-Request kann mit curl erzeugt werden. Bitte alle grossgeschriebenen
 curl -v -H "X-Authentication: JWT" -F "vorgangsNummer=V_NR" -F "filename=DATEI_NAME"  -F "file=@DATEI_NAME" -F "sichtbarFuerVertrieb=true" https://www.europace2.de/vorgang/dokumente
 ```
 ## Nutzungsbedingungen
-Die APIs werden unter folgenden [Nutzungsbedingungen](https://developer.europace.de/terms/) zur Verfügung gestellt
-
+Die APIs werden unter folgenden [Nutzungsbedingungen](https://docs.api.europace.de/nutzungsbedingungen/) zur Verfügung gestellt
