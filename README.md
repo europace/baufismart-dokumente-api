@@ -9,6 +9,7 @@ Die API ermöglicht das Hinzufügen von Dokumente zu einem Vorgang bzw. Antrag u
 [![GitHub release](https://img.shields.io/github/v/release/europace/baufismart-ereignisse-api)](https://github.com/europace/baufismart-dokumente-api/releases)
 
 ## Dokumentation
+[![YAML](https://img.shields.io/badge/OAS-HTML_Doc-lightblue)](https://europace.github.io/baufismart-dokumente-api/)
 [![YAML](https://img.shields.io/badge/OAS-YAML-lightgrey)](https://raw.githubusercontent.com/europace/baufismartdokumente-api/master/dokumente-openapi.yaml)
 
 ## Anwendungsfälle der API
