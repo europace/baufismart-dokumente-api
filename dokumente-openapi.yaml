@@ -1,0 +1,292 @@
+openapi: 3.0.0
+info:
+  title: baufismart-dokumente-api
+  description: |-
+    Mit dieser API können Vorgangs- und Antrags-Dokumente runter und hochgeladen werden. 
+
+    Hinweis: Als Vertrieb sollte für Unterlagen und Nachweise in einer Baufinanzierung die Unterlagen-API verwendet werden. Diese API ist vor allem für Antragsdokumente des Produtkanbieters oder vom Vertrieb erstellte Dokumente vorgesehen.
+  contact:
+    name: Europace AG
+    url: www.europace2.de
+    email: helpdesk@europace2.de
+  version: 1.0.0
+servers:
+  - url: 'https://api.europace2.de'
+paths:
+  /dokumentenverwaltung/dokument:
+    get:
+      tags:
+        - download
+      summary: Dokument herunterladen
+      description: 'Ein Dokument kann heruntergeladen werden. Die Referenz (id) auf das Dokument wird durch den Upload, oder einen andere API wie Vorgaenge-API oder Antraege-API geliefert.'
+      operationId: getDocument
+      parameters:
+        - name: id
+          in: query
+          description: Id des Dokuments
+          required: true
+          style: form
+          schema:
+            type: string
+            example: '{{id}}'
+        - name: Accept
+          in: header
+          description: Das akzeptierte Dateiformat
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: 'text/html;charset=UTF-8, text/rtf;charset=UTF-8, text/plain;charset=UTF-8, text/xml;charset=UTF-8, image/gif, image/jpg, image/jpeg, image/png, image/bmp, image/png,image/svg+xml, image/tiff, application/zip, application/excel, application/vnd.ms-outlook, application/pdf;charset=UTF-8, application/vnd.openxmlformats-officedocument.presentationml.presentation, application/mspowerpoint, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/msword, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+            application/pdf:
+              schema:
+                type: object
+                properties: {}
+          headers:
+            content-type:
+              schema:
+                type: string
+              description: Dokumente-Typ z.B. application/pdf;charset=UTF-8
+            content-disposition:
+              schema:
+                type: string
+              description: inline; filename="MeinTestUpload.pdf"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error-message'
+              examples:
+                example-1:
+                  value:
+                    traceId: ep2-64oyr
+                    seitenName: Authentifizierung fehlgeschlagen
+                    ueberschrift: Fehlerhafte Anmeldedaten
+                    nachricht: 'Solltest du dein Passwort vergessen haben,<br/>nutze bitte den Passwort-Vergessen-Link auf der Login-Seite.'
+                    errorMessageForUser: " "
+                    statusCode: 401
+                    redirectTarget: /dokumentenverwaltung/login?oeffne=%2Fdokumentenverwaltung%2Fdokument%2F%3Fid%3D85c9771d07ac5c27400abb7ece039133a1d5aebee5c1baae5b4fd7572ebbf9cabf3d1aad7ff480625e95cf828e4871f2d78db9842960ee32b762b24911dd0
+                    internalErrorMessage: null
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error-message'
+              examples:
+                example-1:
+                  value:
+                    traceId: ep2-96gqd-backend
+                    seitenName: Keine Berechtigung
+                    ueberschrift: Keine Berechtigung
+                    nachricht: Du hast keine Berechtigung für den Zugriff auf diese Daten.
+                    errorMessageForUser: Du hast keine Berechtigung für den Zugriff auf diese Daten.
+                    statusCode: 403
+                    redirectTarget: null
+                    internalErrorMessage: null
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error-message'
+              examples:
+                example-1:
+                  value:
+                    traceId: string
+                    seitenName: string
+                    ueberschrift: string
+                    nachricht: string
+                    errorMessageForUser: string
+                    statusCode: 0
+                    redirectTarget: null
+                    internalErrorMessage: null
+      security:
+        - Authorization: []
+  /vorgang/dokumente:
+    post:
+      tags:
+        - upload
+      summary: Dokument hinzufügen
+      description: Endpunkt zum uploaden eines Dokuments und gleichzeitigem hinzufügen zu einem Vorgang oder Antrag.
+      operationId: setDocument
+      parameters:
+        - name: anzeigename
+          in: query
+          description: Unter welchem Namen soll das Dokument in BaufiSmart angezeigt werden.
+          required: false
+          style: form
+          schema:
+            type: string
+            example: test_dokument
+        - name: teilAntragNummer
+          in: query
+          description: Der Antrag an dem das Dokument hinzugefügt werden soll. Beim Upload muss entweder eine VorgangsNummer oder eine TeilAntragNummer angegeben werden.
+          required: false
+          style: form
+          schema:
+            type: string
+            example: '123456789'
+        - name: vorgangsNummer
+          in: query
+          description: Der Vorgang an dem das Dokument hinzugefügt werden soll. Beim Upload muss entweder eine VorgangsNummer oder eine TeilAntragNummer angegeben werden.
+          required: false
+          style: form
+          schema:
+            type: string
+            format: 'YYY-MM-DDThh:mm:ss.SSSZ'
+            example: AB1234
+        - name: erstellungsdatum
+          in: query
+          description: Datum an dem das Dokument erstellt wurde
+          required: false
+          style: form
+          schema:
+            type: string
+            format: 'YYY-MM-DDThh:mm:ss.SSSZ'
+            example: '2016-04-07T13:30:11.633Z'
+        - name: sichtbarFuerVertrieb
+          in: query
+          description: Ist das Dokument auch für den Vertrieb /V ermittler sichtbar. Wenn eine Vorgangsnummer angegeben wird muss dieser Parameter true sein
+          required: false
+          style: form
+          schema:
+            type: boolean
+            example: true
+        - name: Content-Type
+          in: header
+          style: simple
+          schema:
+            type: string
+            example: multipart/form-data
+          required: true
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              description: ''
+              type: object
+              properties:
+                traceId:
+                  type: string
+                  minLength: 1
+                seitenName:
+                  type: string
+                  minLength: 1
+                ueberschrift:
+                  type: string
+                  minLength: 1
+                nachricht:
+                  type: string
+                  minLength: 1
+                errorMessageForUser: {}
+                statusCode:
+                  type: number
+                redirectTarget: {}
+                internalErrorMessage: {}
+              required:
+                - traceId
+                - seitenName
+                - ueberschrift
+                - nachricht
+                - statusCode
+        required: true
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+              description: Url zum Download des Dokuments
+        '403':
+          description: 'Forbidden - Scope ''dokumente:dokument:schreiben'' nicht vorhanden'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error-message'
+              examples:
+                example-1:
+                  value:
+                    traceId: ep2-96gqd-backend
+                    seitenName: Keine Berechtigung
+                    ueberschrift: Keine Berechtigung
+                    nachricht: Du hast keine Berechtigung für den Zugriff auf diese Daten.
+                    errorMessageForUser: Du hast keine Berechtigung für den Zugriff auf diese Daten.
+                    statusCode: 403
+                    redirectTarget: null
+                    internalErrorMessage: null
+        '404':
+          description: Not Found - Vorgang oder Antrag nicht vorhanden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error-message'
+              examples: {}
+        '422':
+          description: Unprocessable Entity. Wird bei fehlenden oder fehlerhaften Parametern zurueckgeliefert.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error-message'
+              examples:
+                example-1:
+                  value:
+                    traceId: ep2-i4t9r-backend
+                    seitenName: ''
+                    ueberschrift: 'Das Dokument kann dem Vorgang nicht hinzugefügt werden, da das Flag ''sichtbarFuerVertrieb'' nicht gesetzt ist.'
+                    nachricht: ' '
+                    errorMessageForUser: 'Das Dokument kann dem Vorgang nicht hinzugefügt werden, da das Flag ''sichtbarFuerVertrieb'' nicht gesetzt ist.'
+                    statusCode: 422
+                    redirectTarget: null
+                    internalErrorMessage: null
+      security: []
+tags:
+  - name: download
+    description: Download über die Dokumentenverwaltung
+  - name: upload
+    description: Dokumente upload über das Vorgangsmodul
+components:
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+  schemas:
+    error-message:
+      title: Fehlermeldung
+      type: object
+      properties:
+        traceId:
+          type: string
+          minLength: 1
+        seitenName:
+          type: string
+        ueberschrift:
+          type: string
+          minLength: 1
+        nachricht:
+          type: string
+          minLength: 1
+        errorMessageForUser:
+          type: string
+          minLength: 1
+        statusCode:
+          type: number
+        redirectTarget: {}
+        internalErrorMessage: {}
+      required:
+        - traceId
+        - seitenName
+        - ueberschrift
+        - nachricht
+        - errorMessageForUser
+        - statusCode
+      description: ''
