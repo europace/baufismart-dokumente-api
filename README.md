@@ -1,137 +1,159 @@
-### ⚠️ Diese Dokumentation ist nicht mehr öffentlich zugänglich!
+# Dokumente-API
+Die API ermöglicht das Hinzufügen von Dokumente zu einem Vorgang bzw. Antrag und das Herunterladen eines bekannten Dokumentes.
 
-Es sollen sich keine weiteren Partner an diese API anschliessen. Mehr info gibt es von Fabian S.
+![Vertrieb](https://img.shields.io/badge/-Vertrieb-lightblue)
+![Produktanbieter](https://img.shields.io/badge/-Produktanbieter-lightblue)
+![Baufinanzierung](https://img.shields.io/badge/-Baufinanzierung-lightblue)
 
-# baufismart-dokumente-api
-
-Diese Schnittstelle ermöglicht es, Dokumente einem Vorgang/Antrag hinzuzufügen oder herunterzuladen.
+[![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](https://github.com/europace/authorization-api)
+[![GitHub release](https://img.shields.io/github/v/release/europace/baufismart-ereignisse-api)](https://github.com/europace/baufismart-dokumente-api/releases)
 
 ## Dokumentation
+[![YAML](https://img.shields.io/badge/OAS-HTML_Doc-lightblue)](https://europace.github.io/baufismart-dokumente-api/)
+[![YAML](https://img.shields.io/badge/OAS-YAML-lightgrey)](https://raw.githubusercontent.com/europace/baufismartdokumente-api/master/dokumente-openapi.yaml)
 
-### OpenAPi (ehemals Swagger)  Spezifikationen
-Die API ist vollständig in OpenAPI definiert. EIne Konvertierung in das swagger Format ist mit diesen Dateien auch möglich.
+## Anwendungsfälle der API
+- vom Vertrieb generierte Vertriebsdokumente dem Vorgang hinzufügen
+- vom Produktanbieter generierte Anträge/Verträge oder benötigte Formulare dem Vertrieb über den Antrag hinzufügen
+- ein bekanntes Dokument herunterladen
 
-* [openapi.json](https://github.com/europace/baufismart-dokumente-api/blob/master/openapi/openapi.json)
-* [openapi.yaml](https://github.com/europace/baufismart-dokumente-api/blob/master/openapi/openapi.yaml)
 
-Diese Spezifikationen können auch zur Generierung von Clients für diese API verwendet
-werden. Dazu empfehlen wir das Tool [Swagger Codegen](https://swagger.io/tools/swagger-codegen/)
+> **_Achtung:_**  Antragsteller-Dokumente wie Unterlagen und Nachweise sollten über die [Unterlagen-API](https://docs.api.europace.de/baufinanzierung/unterlagen/unterlagen-api/) verarbeitet werden.
 
-### Postman Collection
 
-Durch das importieren der Datei  [postman collection](/postman/baufismart-dokumente-api.postman_collection.json) kann man die API Funktionalitäten leicht testen
+# Schnellstart
+Damit du unsere APIs und deinen Anwendungsfall schnellstmöglich testen kannst, haben wir eine [Postman-Collection](https://docs.api.europace.de/baufinanzierung/schnellstart/) für dich zusammengestellt.
 
-## API Funktionalitäten
+### Authentifizierung
+Bitte benutze [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](https://docs.api.europace.de/baufinanzierung/authentifizierung/), um Zugang zur API bekommen. Um die API verwenden zu können, benötigt der OAuth2-Client folgende Scopes:
 
-### Download
+| Scope                                  | API Usecase                                   |
+|----------------------------------------|-----------------------------------------------|
+| `dokumente:dokument:schreiben`         | Dokument hinzufügen                           |
 
-Dokumente können durch die Dokumenten Id, die beim Upload generiert, und beim Upload im Header zurückgeliefert wird, heruntergeladen werden.
 
-Request Parameter | Beschreibung
------|-------------
-id | Id des Dokuments
-
-### Upload / Import
-
+## Funktionsweise
 Ein hochgeladenes Dokument besteht aus binär Daten (z.B. einem PDF oder Bild) und dessen Metadaten. Die Schnittstelle ist streaming fähig. Hochgeladene Dokumente erscheinen wie alle anderen Dokumente in der Dokumenten-Lasche innerhalb eines BaufiSmart Vorgang.
 
-Folgende Request Parameter stehen zur Verfügung:
+## Beispiel: Dokument einem Vorgang hinzufügen
 
-Request Parameter | Beschreibung
------|-------------
-anzeigename | Name zur Anzeige auf der Oberfläche.
-vorgangsNummer | Das Dokument wird diesem Vorgang zugeordnet, wenn keine teilantragnummer gegeben.
-teilAntragNummer | Das Dokument wird dem Kreditentscheidungsteilvorgang des Teilantrag zugeordnet. Entweder die 'vorgangsNummer' oder die 'teilAntragNummer' muss angegeben sein.
-sichtbarFuerVertrieb | Wenn "true", dann wird das Dokument (auch) dem Beratungsteilvorgang zugeordnet. Wenn eine 'vorgangsNummer' angegeben wird, darf dieser Wert nicht false sein.
-erstellungsdatum | Datum an welchem das Dokument erstellt wurde. Format: YYY-MM-DDThh:mm:ss.SSSZ
+Der Vertrieb möchte ein selbsterzeugtes Angebotsdokument dem Vorgang hinzufügen, damit es über Finn dem Antragsteller zur Verfügung gestellt werden kann.
 
-## Authentifizierung
-Die Authentifizierung läuft über den OAuth2 Flow vom Typ ressource owner password credentials flow. https://tools.ietf.org/html/rfc6749#section-1.3.3
+Request:
+``` html
+POST /vorgang/dokumente HTTP/1.1
+Host: www.europace2.de
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer eyJraWQiOiJS...
+Content-Length: 771
 
-### Credentials
-Um die Credentials zu erhalten, erfagen Sie beim Helpdesk der Plattform die Zugangsdaten zur Auslesen API, bzw. bitten Ihren Auftraggeber dies zu tun.
-Folgende Schritte sind notwendig um ein Token zu generieren und dieses zu nutzen.
+----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="bestesAngebot.pdf"
+Content-Type: application/pdf
 
-#### 1. Login - JWT Erzeugung
-Absenden eines POST Requests auf den Login-Endpunkt https://api.europace.de/login mit 'username' und 'password'.
-Der Username entspricht der PartnerId und das Password ist der API-Key. Alternativ kann ein Login auch über einen GET Aufruf mit HTTP Basic Auth auf den Login-Endpunkt erfolgen.
+(data)
+----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="anzeigename"
 
-Header Parameter | Beschreibung
------------------|-------------
-X-ApiKey         | API des Benutzers / der Organisationen
-X-PartnerId      | PartnerId des Benutzers
+bestesAngebot
+----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="vorgangsNummer"
 
-#### 2. JWT auslesen
-
-Aus der JSON-Antwort das JWToken (access_token) entnehmen
-
-#### 3. JWT beim Upload/Download mitliefern
-
-Bei Upload Requests muss dieser JWToken als 'X-Authentication' Header mitgeschickt werden. Beim download als 'Authorization' Header.
-
-Usecase | Header  | Header Value
------------------|-------------|-------------
-Download   |  Authorization     | {{JWT}}
-Upload | X-Authentication     | {{JWT}}
-
-Wichtig!
-Der Benutzer muss neben des JWT auch Zugriff auf den Vorgang bzw. TeilAntrag haben um Dokumente hinzufügen oder runterladen zu können.
-
-# Beispiel
-
-## Upload
-
-Nachfolgendes Beispiel zeigt einen Auschnitt des HTTP Request, welcher die Datei Antrag.pdf in die EUROPACE 2 Plattform importiert und dem Vorgang 123456 zuordnet. Als Antwort wird im Location Header die URI auf das Dokument geliefert.
-
-Besitzt man einen gültigen JWT kann man auch die API per Header Parameter 'X-Authenitcation' nutzen:
-
-Header Parameter | Beschreibung
------------------|-------------
-X-Authentication | der JWT
+S719MH
+----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="teilAntragNummer"
 
 
-```
-POST https://www.europace2.de/vorgang/dokumente
-Content-Type: multipart/form-data
-X-ApiKey: 34jklj34h56l
-X-PartnerId: 324h6lj21
-
-Content-Type: multipart/form-data; boundary=----------------------------b15d48e6d7db
-
-------------------------------b15d48e6d7db
+----WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="sichtbarFuerVertrieb"
 
 true
-------------------------------b15d48e6d7db
+----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="erstellungsdatum"
+
+2021-03-05T09:45:00.000-01:00
+----WebKitFormBoundary7MA4YWxkTrZu0gW
+```
+
+Response: 
+``` html
+201 created
+Header: 
+    Location: https://www.europace2.de/dokumentenverwaltung/download/?id=21a21f2d8932f5bef262672e8437388f12b0543d8a6a5fbbb1d99999672a3a4829f24a7c2c04461f806d9ad6b05730e2271407b28d6d1740960c24d4fb7f2a05
+```
+
+Die Datei kann mit dem Link aus der Header-Variable Location wieder abgerufen werden. Die Id des Dokumentes ist in dem Link enthalten.
+
+## Beispiel: Dokument einem Antrag hinzufügen
+
+Ein Produktanbieter möchte den vollständig ausgefüllten Darlehensantrag bereitstellen und einem Antrag hinzufügen. Dabei ist wichtig, dass die Sichtbarkeit für den Vertrieb (sichtbarFuerVertrieb=true) gewährt wird, damit das Dokument über den Vertrieb an den Antragsteller weitergeleitet werden kann. 
+
+Request:
+``` html
+POST /vorgang/dokumente HTTP/1.1
+Host: www.europace2.de
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer eyJraWQiOiJS...
+Content-Length: 771
+
+----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="Darlehensantrag meineBank.pdf"
+Content-Type: application/pdf
+
+(data)
+----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="anzeigename"
+
+Darlehensantrag meineBank
+----WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="vorgangsNummer"
 
-123456
-------------------------------b15d48e6d7db
-Content-Disposition: form-data; name="filename"
 
-Antrag.pdf
-------------------------------b15d48e6d7db
-Content-Disposition: form-data; name="file"; filename="Antrag.pdf"
-Content-Type: application/octet-stream
+----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="teilAntragNummer"
 
-... content hidden for brevity ...
+S719MH/1/1
+----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="sichtbarFuerVertrieb"
 
+true
+----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="erstellungsdatum"
 
-------------------------------b15d48e6d7db--
-
+2021-03-05T09:45:00.000-01:00
+----WebKitFormBoundary7MA4YWxkTrZu0gW
 ```
 
-
+Response: 
+``` html
+201 created
+Header: 
+    Location: https://www.europace2.de/dokumentenverwaltung/download/?id=21a21f2d8932f5bef262672e8437388f12b0543d8b6a2fbbb1e99999672a3a4829f24a7c2c04461f806d9ad6b05730e2271407b28d6d1740960c24d4fb7f2a05
 ```
-201 CREATED
-Location: https://www.europace2.de/dokumentenverwaltung/v97w3945w045ct3576c4w09rczg4twc0r8563458utmwv49vw8e4p57bz45wiovu6e98457c
-```
 
+## Beispiel: Dokument herunterladen
 
-Ein Beispiel-Request kann mit curl erzeugt werden. Bitte alle grossgeschriebenen Platzhalter ersetzen.
+Sofern die Id des Dokumentes nicht bekannt ist, kann sie über die Vorgaenge- oder Antraege-API ermittelt werden.
 
-```
-curl -v -H "X-Authentication: JWT" -F "vorgangsNummer=V_NR" -F "filename=DATEI_NAME"  -F "file=@DATEI_NAME" -F "sichtbarFuerVertrieb=true" https://www.europace2.de/vorgang/dokumente
-```
+Request:
+```html
+GET /dokumentenverwaltung/dokument/?id=21a21f2d8932f5bef262672e8437388f12b0543d8b6a2fbbb1e99999672a3a4829f24a7c2c04461f806d9ad6b05730e2271407b28d6d1740960c24d4fb7f2a05 HTTP/1.1
+Host: www.europace2.de
+Accept: */*
+Authorization: Bearer eyJraWQiOiJS...
+``` 
+
+Response:
+```html
+Header:
+    content-disposition: inline; filename="Darlehensantrag meineBank.pdf"
+    content-type: application/pdf;charset=UTF-8
+Body:
+    file-binary
+``` 
+
+## Support
+Bei Fragen oder Problemen kannst du dich an devsupport@europace2.de wenden.
+
 ## Nutzungsbedingungen
-Die APIs werden unter folgenden [Nutzungsbedingungen](https://docs.api.europace.de/nutzungsbedingungen/) zur Verfügung gestellt
+Die APIs werden unter folgenden [Nutzungsbedingungen](https://docs.api.europace.de/nutzungsbedingungen/) zur Verfügung gestellt.
