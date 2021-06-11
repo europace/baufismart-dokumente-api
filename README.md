@@ -30,7 +30,7 @@ Bitte benutze [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)
 | Scope                                  | API Usecase                                   |
 |----------------------------------------|-----------------------------------------------|
 | `dokumente:dokument:schreiben`         | Dokument hinzufügen                           |
-
+| `dokumente:dokument:lesen`             | Dokument abrufen                              |
 
 ## Funktionsweise
 Ein hochgeladenes Dokument besteht aus binär Daten (z.B. einem PDF oder Bild) und dessen Metadaten. Die Schnittstelle ist streaming fähig. Hochgeladene Dokumente erscheinen wie alle anderen Dokumente in der Dokumenten-Lasche innerhalb eines BaufiSmart Vorgang.
