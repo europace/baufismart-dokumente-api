@@ -2,9 +2,9 @@ openapi: 3.0.0
 info:
   title: baufismart-dokumente-api
   description: |-
-    Mit dieser API können Vorgangs- und Antrags-Dokumente runter und hochgeladen werden. 
+    With this API, case- and application- documents can be downloaded and uploaded. 
 
-    Hinweis: Als Vertrieb sollte für Unterlagen und Nachweise in einer Baufinanzierung die Unterlagen-API verwendet werden. Diese API ist vor allem für Antragsdokumente des Produtkanbieters oder vom Vertrieb erstellte Dokumente vorgesehen.
+    Note: As a sales organization, the Unterlagen-API should be used for documents and proofs in a construction financing. This API is mainly for application documents from the product provider or documents created by the sales organization.
   contact:
     name: Europace AG
     url: www.europace2.de
@@ -16,14 +16,14 @@ paths:
   /dokumentenverwaltung/dokument:
     get:
       tags:
-        - download
-      summary: Dokument herunterladen
-      description: 'Ein Dokument kann heruntergeladen werden. Die Referenz (id) auf das Dokument wird durch den Upload, oder einen andere API wie Vorgaenge-API oder Antraege-API geliefert.'
+        - document
+      summary: download document
+      description: 'download a document from a case or application. The document-id is provided by the upload, or another API such as the Vorgaenge-API or Antraege-API.'
       operationId: getDocument
       parameters:
         - name: id
           in: query
-          description: Id des Dokuments
+          description: document-id
           required: true
           style: form
           schema:
@@ -31,7 +31,7 @@ paths:
             example: '{{id}}'
         - name: Accept
           in: header
-          description: Das akzeptierte Dateiformat
+          description: accepted file format
           required: true
           style: simple
           schema:
@@ -53,7 +53,7 @@ paths:
             content-type:
               schema:
                 type: string
-              description: Dokumente-Typ z.B. application/pdf;charset=UTF-8
+              description: document type e.g. application/pdf;charset=UTF-8
             content-disposition:
               schema:
                 type: string
@@ -114,14 +114,14 @@ paths:
   /vorgang/dokumente:
     post:
       tags:
-        - upload
-      summary: Dokument hinzufügen
-      description: Endpunkt zum uploaden eines Dokuments und gleichzeitigem hinzufügen zu einem Vorgang oder Antrag.
-      operationId: setDocument
+        - document
+      summary: add document
+      description: upload a document and adding it to a case or application
+      operationId: addDocument
       parameters:
         - name: anzeigename
           in: query
-          description: Unter welchem Namen soll das Dokument in BaufiSmart angezeigt werden.
+          description: file name displayed in BaufiSmart
           required: false
           style: form
           schema:
@@ -129,7 +129,7 @@ paths:
             example: test_dokument
         - name: teilAntragNummer
           in: query
-          description: Der Antrag an dem das Dokument hinzugefügt werden soll. Beim Upload muss entweder eine VorgangsNummer oder eine TeilAntragNummer angegeben werden.
+          description: The application to which the document should be added. When uploading, either a VorgangsNummer or a TeilAntragNummer must be specified.
           required: false
           style: form
           schema:
@@ -137,7 +137,7 @@ paths:
             example: '123456789'
         - name: vorgangsNummer
           in: query
-          description: Der Vorgang an dem das Dokument hinzugefügt werden soll. Beim Upload muss entweder eine VorgangsNummer oder eine TeilAntragNummer angegeben werden.
+          description: The case to which the document should be added. When uploading, either a VorgangsNummer or a TeilAntragNummer must be specified.
           required: false
           style: form
           schema:
@@ -146,7 +146,7 @@ paths:
             example: AB1234
         - name: erstellungsdatum
           in: query
-          description: Datum an dem das Dokument erstellt wurde
+          description: creation date
           required: false
           style: form
           schema:
@@ -155,7 +155,7 @@ paths:
             example: '2016-04-07T13:30:11.633Z'
         - name: sichtbarFuerVertrieb
           in: query
-          description: Ist das Dokument auch für den Vertrieb /V ermittler sichtbar. Wenn eine Vorgangsnummer angegeben wird muss dieser Parameter true sein
+          description: visibleForSales - if true, the document ist visible for sales organization
           required: false
           style: form
           schema:
@@ -206,9 +206,9 @@ paths:
             Location:
               schema:
                 type: string
-              description: Url zum Download des Dokuments
+              description: download uri of the document (contains document-id)
         '403':
-          description: 'Forbidden - Scope ''dokumente:dokument:schreiben'' nicht vorhanden'
+          description: 'Forbidden - Scope ''dokumente:dokument:schreiben'' not set'
           content:
             application/json:
               schema:
@@ -225,14 +225,14 @@ paths:
                     redirectTarget: null
                     internalErrorMessage: null
         '404':
-          description: Not Found - Vorgang oder Antrag nicht vorhanden
+          description: Not Found - case or application not available
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/error-message'
               examples: {}
         '422':
-          description: Unprocessable Entity. Wird bei fehlenden oder fehlerhaften Parametern zurueckgeliefert.
+          description: Unprocessable Entity. Will be returned if parameters are missing or incorrect.
           content:
             application/json:
               schema:
@@ -250,10 +250,8 @@ paths:
                     internalErrorMessage: null
       security: []
 tags:
-  - name: download
-    description: Download über die Dokumentenverwaltung
-  - name: upload
-    description: Dokumente upload über das Vorgangsmodul
+  - name: document
+    description: self-generated quotes or applications- and contract-documents
 components:
   securitySchemes:
     Authorization:
@@ -261,7 +259,7 @@ components:
       scheme: bearer
   schemas:
     error-message:
-      title: Fehlermeldung
+      title: error messages
       type: object
       properties:
         traceId:
