@@ -76,6 +76,8 @@ Content-Disposition: form-data; name="erstellungsdatum"
 ----WebKitFormBoundary7MA4YWxkTrZu0gW
 ```
 
+The `(data)` is binary without encoding.
+
 Response: 
 ``` html
 201 created
@@ -124,6 +126,8 @@ Content-Disposition: form-data; name="erstellungsdatum"
 2021-03-05T09:45:00.000-01:00
 ----WebKitFormBoundary7MA4YWxkTrZu0gW
 ```
+
+The `(data)` is binary without encoding.
 
 Response: 
 ``` html
