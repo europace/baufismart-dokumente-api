@@ -44,36 +44,36 @@ Request:
 ``` html
 POST /vorgang/dokumente HTTP/1.1
 Host: www.europace2.de
-Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Type: multipart/form-data; boundary=WebKitFormBoundary7MA4YWxkTrZu0gW
 Authorization: Bearer eyJraWQiOiJS...
 Content-Length: 771
 
-----WebKitFormBoundary7MA4YWxkTrZu0gW
+--WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="file"; filename="bestesAngebot.pdf"
 Content-Type: application/pdf
 
 (data)
-----WebKitFormBoundary7MA4YWxkTrZu0gW
+--WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="anzeigename"
 
 bestesAngebot
-----WebKitFormBoundary7MA4YWxkTrZu0gW
+--WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="vorgangsNummer"
 
 S719MH
-----WebKitFormBoundary7MA4YWxkTrZu0gW
+--WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="teilAntragNummer"
 
 
-----WebKitFormBoundary7MA4YWxkTrZu0gW
+--WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="sichtbarFuerVertrieb"
 
 true
-----WebKitFormBoundary7MA4YWxkTrZu0gW
+--WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="erstellungsdatum"
 
 2021-03-05T09:45:00.000-01:00
-----WebKitFormBoundary7MA4YWxkTrZu0gW
+--WebKitFormBoundary7MA4YWxkTrZu0gW--
 ```
 
 The `(data)` is binary without encoding.
@@ -95,36 +95,36 @@ Request:
 ``` html
 POST /vorgang/dokumente HTTP/1.1
 Host: www.europace2.de
-Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Type: multipart/form-data; boundary=WebKitFormBoundary7MA4YWxkTrZu0gW
 Authorization: Bearer eyJraWQiOiJS...
 Content-Length: 771
 
-----WebKitFormBoundary7MA4YWxkTrZu0gW
+--WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="file"; filename="Darlehensantrag meineBank.pdf"
 Content-Type: application/pdf
 
 (data)
-----WebKitFormBoundary7MA4YWxkTrZu0gW
+--WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="anzeigename"
 
 Darlehensantrag meineBank
-----WebKitFormBoundary7MA4YWxkTrZu0gW
+--WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="vorgangsNummer"
 
 
-----WebKitFormBoundary7MA4YWxkTrZu0gW
+--WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="teilAntragNummer"
 
 S719MH/1/1
-----WebKitFormBoundary7MA4YWxkTrZu0gW
+--WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="sichtbarFuerVertrieb"
 
 true
-----WebKitFormBoundary7MA4YWxkTrZu0gW
+--WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="erstellungsdatum"
 
 2021-03-05T09:45:00.000-01:00
-----WebKitFormBoundary7MA4YWxkTrZu0gW
+--WebKitFormBoundary7MA4YWxkTrZu0gW--
 ```
 
 The `(data)` is binary without encoding.
