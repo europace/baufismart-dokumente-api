@@ -1,0 +1,20 @@
+deployments:
+  environmentMapping:
+    development:
+      - "dev"
+      - "dev-*"
+      - "development"
+      - "development-*"
+    testing:
+      - "test"
+      - "test-*"
+      - "testing"
+      - "testing-*"
+    staging:
+      - "mtp"
+      - "mtp-*"
+    production:
+      - "ps"
+      - "ps-*"
+      - "prod"
+      - "prod-*"
