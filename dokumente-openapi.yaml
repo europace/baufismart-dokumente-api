@@ -193,7 +193,6 @@ paths:
                 redirectTarget: {}
                 internalErrorMessage: {}
               required:
-                - traceId
                 - seitenName
                 - ueberschrift
                 - nachricht
@@ -281,7 +280,6 @@ components:
         redirectTarget: {}
         internalErrorMessage: {}
       required:
-        - traceId
         - seitenName
         - ueberschrift
         - nachricht
