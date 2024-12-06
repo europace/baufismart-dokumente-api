@@ -11,7 +11,7 @@ info:
     email: helpdesk@europace2.de
   version: 1.0.0
 servers:
-  - url: 'https://api.europace2.de'
+  - url: 'https://www.europace2.de'
 paths:
   /dokumentenverwaltung/dokument:
     get:
@@ -118,86 +118,56 @@ paths:
       summary: add document
       description: upload a document and adding it to a case or application
       operationId: addDocument
-      parameters:
-        - name: anzeigename
-          in: query
-          description: file name displayed in BaufiSmart
-          required: false
-          style: form
-          schema:
-            type: string
-            example: test_dokument
-        - name: teilAntragNummer
-          in: query
-          description: The application to which the document should be added. When uploading, either a VorgangsNummer or a TeilAntragNummer must be specified.
-          required: false
-          style: form
-          schema:
-            type: string
-            example: '123456789'
-        - name: vorgangsNummer
-          in: query
-          description: The case to which the document should be added. When uploading, either a VorgangsNummer or a TeilAntragNummer must be specified.
-          required: false
-          style: form
-          schema:
-            type: string
-            format: 'YYY-MM-DDThh:mm:ss.SSSZ'
-            example: AB1234
-        - name: erstellungsdatum
-          in: query
-          description: creation date
-          required: false
-          style: form
-          schema:
-            type: string
-            format: 'YYY-MM-DDThh:mm:ss.SSSZ'
-            example: '2016-04-07T13:30:11.633Z'
-        - name: sichtbarFuerVertrieb
-          in: query
-          description: visibleForSales - if true, the document ist visible for sales organization
-          required: false
-          style: form
-          schema:
-            type: boolean
-            example: true
-        - name: Content-Type
-          in: header
-          style: simple
-          schema:
-            type: string
-            example: multipart/form-data
-          required: true
       requestBody:
+        required: true
         content:
           multipart/form-data:
             schema:
-              description: ''
               type: object
+              oneOf:
+              - required: ["teilAntragNummer"]
+              - required: ["vorgangsNummer"]
               properties:
-                traceId:
+                file:
                   type: string
-                  minLength: 1
-                seitenName:
+                  format: binary
+                  description: The document file to upload.
+                anzeigename:
                   type: string
-                  minLength: 1
-                ueberschrift:
+                  description: Display name for the document in BaufiSmart.
+                  example: test_dokument.pdf
+                teilAntragNummer:
                   type: string
-                  minLength: 1
-                nachricht:
+                  description: Application ID to associate the document with. Either this or `vorgangsNummer` is required.
+                  example: 'ABC123/1/1'
+                  minLength: 3
+                vorgangsNummer:
                   type: string
-                  minLength: 1
-                errorMessageForUser: {}
-                statusCode:
-                  type: number
-                redirectTarget: {}
-                internalErrorMessage: {}
+                  description: Case ID to associate the document with. Either this or `teilAntragNummer` is required.
+                  example: 'ABC123'
+                  minLength: 3
+                erstellungsdatum:
+                  type: string
+                  format: date-time
+                  description: Document creation date in ISO 8601 format.
+                  example: '2016-04-07T13:30:11.633Z'
+                  minLength: 10
+                sichtbarFuerVertrieb:
+                  type: boolean
+                  description: If `true`, the document is visible to the sales organization.
+                  example: true
               required:
+<<<<<<< Updated upstream
                 - seitenName
                 - ueberschrift
                 - nachricht
                 - statusCode
         required: true
+=======
+                - file
+      security:
+        - Authorization: []
+>>>>>>> Stashed changes
       responses:
         '201':
           description: Created
@@ -247,15 +217,15 @@ paths:
                     statusCode: 422
                     redirectTarget: null
                     internalErrorMessage: null
-      security: []
 tags:
   - name: document
     description: self-generated quotes or applications- and contract-documents
 components:
   securitySchemes:
     Authorization:
-      type: http
-      scheme: bearer
+      type: apiKey
+      name: X-Authentication
+      in: header
   schemas:
     error-message:
       title: error messages
