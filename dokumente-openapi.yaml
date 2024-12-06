@@ -125,8 +125,8 @@ paths:
             schema:
               type: object
               oneOf:
-              - required: ["teilAntragNummer"]
-              - required: ["vorgangsNummer"]
+                - required: ["teilAntragNummer"]
+                - required: ["vorgangsNummer"]
               properties:
                 file:
                   type: string
@@ -157,17 +157,9 @@ paths:
                   description: If `true`, the document is visible to the sales organization.
                   example: true
               required:
-<<<<<<< Updated upstream
-                - seitenName
-                - ueberschrift
-                - nachricht
-                - statusCode
-        required: true
-=======
                 - file
       security:
         - Authorization: []
->>>>>>> Stashed changes
       responses:
         '201':
           description: Created
@@ -250,6 +242,7 @@ components:
         redirectTarget: {}
         internalErrorMessage: {}
       required:
+        - traceId
         - seitenName
         - ueberschrift
         - nachricht
